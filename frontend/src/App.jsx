@@ -39,7 +39,7 @@ const AppContent = () => {
 
   const fetchChats = async () => {
     try {
-      const res = await axios.get('http://127.0.0.1:8000/chats');
+      const res = await axios.get('/api/chats');
       setChats(res.data);
       return res.data;
     } catch (err) {
@@ -50,7 +50,7 @@ const AppContent = () => {
 
   const createNewChat = async () => {
     try {
-      const res = await axios.post('http://127.0.0.1:8000/chats', { title: 'New Chat' });
+      const res = await axios.post('/api/chats', { title: 'New Chat' });
       setChatId(res.data.id);
       setMessages([]);
       setCurrentStep(null);
@@ -63,7 +63,7 @@ const AppContent = () => {
   const loadChat = async (id) => {
     try {
       setChatId(id);
-      const res = await axios.get(`http://127.0.0.1:8000/chats/${id}`);
+      const res = await axios.get(`/api/chats/${id}`);
 
       if (!res.data || !Array.isArray(res.data)) {
         setMessages([]);
@@ -115,7 +115,7 @@ const AppContent = () => {
 
   const deleteChat = async (id) => {
     try {
-      await axios.delete(`http://127.0.0.1:8000/chats/${id}`);
+      await axios.delete(`/api/chats/${id}`);
       await fetchChats();
       if (chatId === id) {
         createNewChat();
@@ -153,7 +153,7 @@ const AppContent = () => {
     }
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/process', {
+      const response = await fetch('/api/process', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ chat_id: activeId, question: questionContent })

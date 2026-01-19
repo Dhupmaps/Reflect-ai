@@ -3,7 +3,14 @@ import json
 from datetime import datetime
 from typing import List, Dict, Optional
 
-DB_PATH = "chat_history.db"
+import os
+import tempfile
+
+# Use /tmp on Vercel (ephemeral), local file otherwise (persistent)
+if os.environ.get("VERCEL"):
+    DB_PATH = os.path.join(tempfile.gettempdir(), "chat_history.db")
+else:
+    DB_PATH = "chat_history.db"
 
 def get_db_connection():
     conn = sqlite3.connect(DB_PATH)
